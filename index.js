@@ -28,6 +28,12 @@ async function run() {
             res.send(result);
             console.log('posted data');
         })
+        // get event data
+        app.get('/packages', async(req, res) => {
+            const result = await allPackages.find({}).toArray();
+            res.send(result);
+            console.log('got data');
+        })
     }
     finally {
         //await client.close();
