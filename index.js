@@ -20,7 +20,8 @@ async function run() {
         await client.connect();
         const database = client.db("tour12DB");
         const allPackages = database.collection("packages");
-        const orders = database.collection("orders")
+        const orders = database.collection("orders");
+        const review = database.collection("review");
 
         // post package data
         app.post('/packages', async(req, res) => {
@@ -59,6 +60,19 @@ async function run() {
             const result = await orders.deleteOne({_id:ObjectId(req.params.id)})
             res.send(result);
             console.log('orders deleted');
+        })
+        // post review data
+        app.post('/review', async(req, res) => {
+            const data = req.body;
+            const result = await review.insertOne(data);
+            res.send(result);
+            console.log('posted review data data');
+        })
+        // get review data
+        app.get('/review', async(req, res) => {
+            const result = await review.find({}).toArray();
+            res.send(result)
+            console.log('got review data');
         })
     }
     finally {
