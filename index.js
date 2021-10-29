@@ -42,11 +42,23 @@ async function run() {
             res.send(result);
             console.log('got data');
         })
+        // get orders data
+        app.get('/orders', async(req, res) => {
+            const result = await orders.find({}).toArray();
+            res.send(result);
+            console.log('got orders data');
+        })
         // add single packagge
         app.get('/singlePackage/:id', async(req, res) => {
             const result = await allPackages.findOne({_id: ObjectId(req.params.id)});
             res.send(result);
             console.log('got single data');
+        })
+        // delete orders data
+        app.delete('/deleteOreder/:id', async(req, res) => {
+            const result = await orders.deleteOne({_id:ObjectId(req.params.id)})
+            res.send(result);
+            console.log('orders deleted');
         })
     }
     finally {
