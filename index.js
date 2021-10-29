@@ -20,19 +20,33 @@ async function run() {
         await client.connect();
         const database = client.db("tour12DB");
         const allPackages = database.collection("packages");
+        const orders = database.collection("orders")
 
-        // post event data data
+        // post package data
         app.post('/packages', async(req, res) => {
             const data = req.body;
             const result = await allPackages.insertOne(data);
             res.send(result);
             console.log('posted data');
         })
-        // get event data
+        // post order data
+        app.post('/orders', async(req, res) => {
+            const data = req.body;
+            const result = await orders.insertOne(data);
+            res.send(result);
+            console.log('posted data');
+        })
+        // get package data
         app.get('/packages', async(req, res) => {
             const result = await allPackages.find({}).toArray();
             res.send(result);
             console.log('got data');
+        })
+        // add single packagge
+        app.get('/singlePackage/:id', async(req, res) => {
+            const result = await allPackages.findOne({_id: ObjectId(req.params.id)});
+            res.send(result);
+            console.log('got single data');
         })
     }
     finally {
